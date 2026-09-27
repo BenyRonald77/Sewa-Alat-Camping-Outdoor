@@ -4,8 +4,10 @@ const path = require('path');
 const routesIndex = require('./routes/index');
 const routesAlat = require('./routes/alat');
 const routesPenyewaan = require('./routes/penyewaan');
+const routesPengembalian = require('./routes/pengembalian');
 const { formatRupiah } = require('./lib/format');
 const { formatTanggalIndonesia } = require('./lib/tanggal');
+const { LABEL_KONDISI } = require('./lib/deposit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Tersedia di semua view tanpa perlu require manual di tiap template.
 app.locals.formatRupiah = formatRupiah;
 app.locals.formatTanggalIndonesia = formatTanggalIndonesia;
+app.locals.LABEL_KONDISI = LABEL_KONDISI;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -31,6 +34,7 @@ app.use((req, res, next) => {
 app.use('/', routesIndex);
 app.use('/alat', routesAlat);
 app.use('/penyewaan', routesPenyewaan);
+app.use('/pengembalian', routesPengembalian);
 
 app.use((req, res) => {
   res.status(404).render('error', {

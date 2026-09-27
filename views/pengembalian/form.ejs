@@ -1,0 +1,51 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Proses Pengembalian</h1>
+    <p><%= alat.nama %> &mdash; disewa oleh <%= penyewaan.namaPenyewa %> (<%= penyewaan.kontakPenyewa %>)</p>
+  </div>
+</div>
+
+<% if (errors && errors.length) { %>
+  <div class="alert alert--error" role="alert">
+    <strong>Pengembalian belum bisa diproses:</strong>
+    <ul>
+      <% errors.forEach((e) => { %><li><%= e %></li><% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<div class="card" style="max-width: 720px;" data-deposit-total="<%= penyewaan.depositDibayar %>" data-jumlah-unit="<%= penyewaan.jumlahUnit %>" id="kartuPengembalian">
+  <form method="post" action="/pengembalian/<%= penyewaan.id %>" novalidate>
+    <p>
+      Disewa <%= formatTanggalIndonesia(penyewaan.tanggalMulai) %> s/d <%= formatTanggalIndonesia(penyewaan.tanggalSelesai) %>,
+      <%= penyewaan.jumlahUnit %> unit, deposit dibayar <%= formatRupiah(penyewaan.depositDibayar) %>.
+    </p>
+
+    <% for (let i = 0; i < penyewaan.jumlahUnit; i++) { %>
+      <fieldset class="field" style="margin-bottom: var(--space-4);">
+        <legend>Unit <%= i + 1 %></legend>
+        <div class="form-grid form-grid--2col kondisi-opsi">
+          <label><input type="radio" name="kondisi[<%= i %>]" value="baik" required checked /> Baik (deposit kembali penuh)</label>
+          <label><input type="radio" name="kondisi[<%= i %>]" value="rusak_ringan" /> Rusak Ringan (potong 30%)</label>
+          <label><input type="radio" name="kondisi[<%= i %>]" value="rusak_berat" /> Rusak Berat (deposit ditahan penuh)</label>
+          <label><input type="radio" name="kondisi[<%= i %>]" value="hilang" /> Hilang (deposit ditahan penuh, stok berkurang)</label>
+        </div>
+      </fieldset>
+    <% } %>
+
+    <div class="field">
+      <label for="catatan">Catatan (opsional)</label>
+      <textarea id="catatan" name="catatan"><%= catatan %></textarea>
+    </div>
+
+    <div id="estimasiDeposit" class="alert alert--success" aria-live="polite"></div>
+
+    <div class="button-row">
+      <button type="submit" class="button button--primary">Simpan Pengembalian</button>
+      <a class="button button--secondary" href="/pengembalian">Batal</a>
+    </div>
+  </form>
+</div>
+<script src="/js/pengembalian.js"></script>
+<%- include('../partials/footer') %>

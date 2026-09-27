@@ -1,0 +1,46 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Pengembalian Selesai</h1>
+    <p><%= alat.nama %> dari <%= penyewaan.namaPenyewa %> telah dicatat kembali.</p>
+  </div>
+</div>
+
+<div class="card" style="max-width: 640px;">
+  <h2>Ringkasan Kondisi per Unit</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Unit</th><th>Kondisi</th></tr>
+      </thead>
+      <tbody>
+        <% pengembalian.kondisiUnit.forEach((k, i) => { %>
+          <tr>
+            <td>Unit <%= i + 1 %></td>
+            <td><span class="tag tag--<%= k %>"><%= LABEL_KONDISI[k] || k %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (pengembalian.catatan) { %>
+    <p style="margin-top: var(--space-4)"><strong>Catatan:</strong> <%= pengembalian.catatan %></p>
+  <% } %>
+
+  <hr class="section-divider" />
+
+  <table>
+    <tbody>
+      <tr><th>Deposit Dibayar</th><td class="numeric"><%= formatRupiah(penyewaan.depositDibayar) %></td></tr>
+      <tr><th>Deposit Dikembalikan</th><td class="numeric"><strong><%= formatRupiah(pengembalian.depositDikembalikan) %></strong></td></tr>
+      <tr><th>Deposit Ditahan</th><td class="numeric"><strong><%= formatRupiah(pengembalian.depositDitahan) %></strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="button-row">
+    <a class="button button--primary" href="/pengembalian">Kembali ke Daftar Pengembalian</a>
+    <a class="button button--secondary" href="/riwayat">Lihat Riwayat Transaksi</a>
+  </div>
+</div>
+<%- include('../partials/footer') %>

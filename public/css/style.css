@@ -575,6 +575,36 @@ input:invalid:not(:placeholder-shown) {
   border-color: var(--color-bad);
 }
 
+.kondisi-opsi {
+  gap: var(--space-2);
+}
+
+.kondisi-opsi label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-sand-deep);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.kondisi-opsi input[type="radio"] {
+  min-height: auto;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.kondisi-opsi label:has(input:checked) {
+  border-color: var(--color-rust);
+  background: rgba(181, 81, 28, 0.08);
+}
+
 fieldset {
   border: 1px solid var(--color-sand-deep);
   border-radius: var(--radius-md);

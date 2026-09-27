@@ -1,0 +1,51 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Pengembalian</h1>
+    <p>Pilih transaksi yang alatnya sedang dikembalikan untuk mencatat kondisi dan menghitung deposit.</p>
+  </div>
+</div>
+
+<% if (!penyewaanAktif.length) { %>
+  <div class="state-empty">
+    <h3>Tidak ada alat yang perlu dikembalikan</h3>
+    <p>Semua transaksi penyewaan sudah selesai diproses.</p>
+    <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Baru</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Penyewa</th>
+          <th>Alat</th>
+          <th class="numeric">Unit</th>
+          <th>Selesai Pada</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% penyewaanAktif.forEach((p) => { %>
+          <tr>
+            <td><%= p.namaPenyewa %><br /><span class="muted"><%= p.kontakPenyewa %></span></td>
+            <td><%= p.alat.nama %></td>
+            <td class="numeric"><%= p.jumlahUnit %></td>
+            <td><%= formatTanggalIndonesia(p.tanggalSelesai) %></td>
+            <td>
+              <% if (p.terlambat) { %>
+                <span class="tag tag--overdue">Terlambat</span>
+              <% } else { %>
+                <span class="tag tag--disewa">Disewa</span>
+              <% } %>
+            </td>
+            <td>
+              <a class="button button--primary button--small" href="/pengembalian/<%= p.id %>">Proses Pengembalian</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/footer') %>
