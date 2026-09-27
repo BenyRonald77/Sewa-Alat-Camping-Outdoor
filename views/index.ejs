@@ -17,6 +17,16 @@
     <div class="stat-card__value"><%= totalUnit %></div>
     <div class="stat-card__hint">unit fisik dimiliki toko</div>
   </div>
+  <div class="stat-card">
+    <div class="stat-card__label">Penyewaan Aktif</div>
+    <div class="stat-card__value"><%= jumlahPenyewaanAktif %></div>
+    <div class="stat-card__hint">belum dikembalikan</div>
+  </div>
+  <div class="stat-card <%= jumlahTerlambat > 0 ? 'stat-card--accent' : '' %>">
+    <div class="stat-card__label">Terlambat Kembali</div>
+    <div class="stat-card__value"><%= jumlahTerlambat %></div>
+    <div class="stat-card__hint">lewat tanggal selesai</div>
+  </div>
 </div>
 
 <div class="dashboard-grid">
@@ -24,7 +34,8 @@
     <h2>Mulai dari sini</h2>
     <p>Kelola data alat, catat penyewaan baru, atau proses pengembalian barang.</p>
     <div class="button-row">
-      <a class="button button--primary" href="/alat">Kelola Inventaris Alat</a>
+      <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Baru</a>
+      <a class="button button--secondary" href="/alat">Kelola Inventaris Alat</a>
     </div>
   </section>
   <section class="card">

@@ -1,0 +1,94 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Buat Penyewaan Baru</h1>
+    <p>Pilih alat dan rentang tanggal. Sistem akan memeriksa stok yang benar-benar tersisa pada rentang tersebut sebelum transaksi disimpan.</p>
+  </div>
+</div>
+
+<% if (errors && errors.length) { %>
+  <div class="alert alert--error" role="alert">
+    <strong>Transaksi belum bisa disimpan:</strong>
+    <ul>
+      <% errors.forEach((e) => { %><li><%= e %></li><% }) %>
+    </ul>
+    <% if (konflik && konflik.length) { %>
+      <p style="margin-top: var(--space-3)">Tanggal yang bentrok (sisa unit tersedia pada tanggal tsb):</p>
+      <ul>
+        <% konflik.forEach((k) => { %>
+          <li><%= formatTanggalIndonesia(k.tanggal) %>: hanya tersisa <%= k.tersedia %> unit</li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+<% } %>
+
+<% if (!daftarAlat.length) { %>
+  <div class="state-empty">
+    <h3>Belum ada alat terdaftar</h3>
+    <p>Tambahkan alat di menu Inventaris Alat sebelum membuat transaksi penyewaan.</p>
+    <a class="button button--primary" href="/alat/baru">Tambah Alat</a>
+  </div>
+<% } else { %>
+  <div class="card" style="max-width: 720px;">
+    <form method="post" action="/penyewaan/baru" id="formPenyewaan" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="alatId">Alat</label>
+          <select id="alatId" name="alatId" required>
+            <option value="">Pilih alat</option>
+            <% daftarAlat.forEach((a) => { %>
+              <option
+                value="<%= a.id %>"
+                data-stok="<%= a.stokTotal %>"
+                data-harga="<%= a.hargaSewaPerHari %>"
+                data-deposit="<%= a.deposit %>"
+                <%= form.alatId === a.id ? 'selected' : '' %>
+              ><%= a.nama %> (stok total: <%= a.stokTotal %>)</option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-grid form-grid--2col">
+          <div class="field">
+            <label for="namaPenyewa">Nama Penyewa</label>
+            <input type="text" id="namaPenyewa" name="namaPenyewa" value="<%= form.namaPenyewa %>" required maxlength="100" />
+          </div>
+          <div class="field">
+            <label for="kontakPenyewa">Kontak Penyewa (No. HP)</label>
+            <input type="text" id="kontakPenyewa" name="kontakPenyewa" value="<%= form.kontakPenyewa %>" required maxlength="40" />
+          </div>
+        </div>
+
+        <div class="form-grid form-grid--2col">
+          <div class="field">
+            <label for="tanggalMulai">Tanggal Mulai</label>
+            <input type="date" id="tanggalMulai" name="tanggalMulai" value="<%= form.tanggalMulai %>" required />
+          </div>
+          <div class="field">
+            <label for="tanggalSelesai">Tanggal Selesai</label>
+            <input type="date" id="tanggalSelesai" name="tanggalSelesai" value="<%= form.tanggalSelesai %>" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="jumlahUnit">Jumlah Unit Diminta</label>
+          <input type="number" id="jumlahUnit" name="jumlahUnit" value="<%= form.jumlahUnit %>" required min="1" step="1" inputmode="numeric" />
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="button" class="button button--secondary" id="btnCekKetersediaan">Cek Ketersediaan &amp; Estimasi Biaya</button>
+      </div>
+
+      <div id="hasilCek" class="card" style="margin-top: var(--space-4);" hidden></div>
+
+      <div class="button-row">
+        <button type="submit" class="button button--primary">Simpan Penyewaan</button>
+        <a class="button button--secondary" href="/penyewaan">Batal</a>
+      </div>
+    </form>
+  </div>
+<% } %>
+<script src="/js/penyewaan.js"></script>
+<%- include('../partials/footer') %>

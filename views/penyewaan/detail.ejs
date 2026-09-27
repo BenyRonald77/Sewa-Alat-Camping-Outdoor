@@ -1,0 +1,30 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Penyewaan Tercatat</h1>
+    <p>Transaksi berhasil disimpan. Berikut rincian biaya untuk penyewa.</p>
+  </div>
+</div>
+
+<div class="card" style="max-width: 640px;">
+  <h2><%= alat.nama %></h2>
+  <p class="muted">Disewa oleh <%= penyewaan.namaPenyewa %> (<%= penyewaan.kontakPenyewa %>)</p>
+
+  <table>
+    <tbody>
+      <tr><th>Jumlah Unit</th><td class="numeric"><%= penyewaan.jumlahUnit %></td></tr>
+      <tr><th>Tanggal Mulai</th><td><%= formatTanggalIndonesia(penyewaan.tanggalMulai) %></td></tr>
+      <tr><th>Tanggal Selesai</th><td><%= formatTanggalIndonesia(penyewaan.tanggalSelesai) %></td></tr>
+      <tr><th>Harga Sewa/Hari (saat transaksi)</th><td class="numeric"><%= formatRupiah(penyewaan.hargaPerHariSaatSewa) %></td></tr>
+      <tr><th>Total Biaya Sewa</th><td class="numeric"><strong><%= formatRupiah(penyewaan.totalBiayaSewa) %></strong></td></tr>
+      <tr><th>Deposit yang Harus Dibayar</th><td class="numeric"><strong><%= formatRupiah(penyewaan.depositDibayar) %></strong></td></tr>
+      <tr><th>Status</th><td><span class="tag tag--disewa">Disewa</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="button-row">
+    <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Lain</a>
+    <a class="button button--secondary" href="/penyewaan">Lihat Penyewaan Aktif</a>
+  </div>
+</div>
+<%- include('../partials/footer') %>

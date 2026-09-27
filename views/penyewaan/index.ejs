@@ -1,0 +1,55 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Penyewaan Aktif</h1>
+    <p>Daftar alat yang sedang disewa dan belum dikembalikan.</p>
+  </div>
+  <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Baru</a>
+</div>
+
+<% if (!penyewaanTampil.length) { %>
+  <div class="state-empty">
+    <h3>Belum ada penyewaan aktif</h3>
+    <p>Semua alat sedang tersedia di gudang. Buat transaksi baru saat ada penyewa datang.</p>
+    <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Baru</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Penyewa</th>
+          <th>Alat</th>
+          <th class="numeric">Unit</th>
+          <th>Mulai</th>
+          <th>Selesai</th>
+          <th class="numeric">Total Sewa</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% penyewaanTampil.forEach((p) => { %>
+          <tr>
+            <td>
+              <a href="/penyewaan/<%= p.id %>"><%= p.namaPenyewa %></a><br />
+              <span class="muted"><%= p.kontakPenyewa %></span>
+            </td>
+            <td><%= p.alat.nama %></td>
+            <td class="numeric"><%= p.jumlahUnit %></td>
+            <td><%= formatTanggalIndonesia(p.tanggalMulai) %></td>
+            <td><%= formatTanggalIndonesia(p.tanggalSelesai) %></td>
+            <td class="numeric"><%= formatRupiah(p.totalBiayaSewa) %></td>
+            <td>
+              <% if (p.terlambat) { %>
+                <span class="tag tag--overdue">Terlambat</span>
+              <% } else { %>
+                <span class="tag tag--disewa">Disewa</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/footer') %>

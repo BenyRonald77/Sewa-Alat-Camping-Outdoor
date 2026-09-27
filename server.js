@@ -3,6 +3,7 @@ const path = require('path');
 
 const routesIndex = require('./routes/index');
 const routesAlat = require('./routes/alat');
+const routesPenyewaan = require('./routes/penyewaan');
 const { formatRupiah } = require('./lib/format');
 const { formatTanggalIndonesia } = require('./lib/tanggal');
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/', routesIndex);
 app.use('/alat', routesAlat);
+app.use('/penyewaan', routesPenyewaan);
 
 app.use((req, res) => {
   res.status(404).render('error', {
