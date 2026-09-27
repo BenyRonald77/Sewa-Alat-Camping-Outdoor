@@ -1,4 +1,4 @@
-# PRD — Aplikasi Sewa Alat Camping/Outdoor
+# PRD: Aplikasi Sewa Alat Camping/Outdoor
 
 ## 1. Ringkasan
 
@@ -84,7 +84,7 @@ satu sistem yang bisa dijalankan di satu komputer/laptop toko.
 
 ## 7. Functional Requirements
 
-### FR-1 — Manajemen Inventaris Alat
+### FR-1: Manajemen Inventaris Alat
 - FR-1.1 Sistem harus menampilkan daftar semua alat beserta kategori, stok
   total unit, harga sewa per hari, dan nominal deposit.
 - FR-1.2 Sistem harus menyediakan form tambah alat baru dengan field: nama,
@@ -98,7 +98,7 @@ satu sistem yang bisa dijalankan di satu komputer/laptop toko.
 - FR-1.6 Sistem harus mencatat log perubahan stok total (mis. akibat unit
   hilang) sebagai riwayat yang bisa ditelusuri (FR-3.7).
 
-### FR-2 — Cek Ketersediaan dan Pembuatan Penyewaan
+### FR-2: Cek Ketersediaan dan Pembuatan Penyewaan
 - FR-2.1 Sistem harus menyediakan form penyewaan baru: pilih alat, nama
   penyewa, kontak penyewa, tanggal mulai, tanggal selesai, jumlah unit yang
   diminta.
@@ -120,7 +120,7 @@ satu sistem yang bisa dijalankan di satu komputer/laptop toko.
 - FR-2.5 Sistem harus menampilkan ringkasan biaya (total sewa + deposit)
   sebelum/-saat transaksi disimpan.
 
-### FR-3 — Pengembalian dan Checklist Kondisi Barang
+### FR-3: Pengembalian dan Checklist Kondisi Barang
 - FR-3.1 Sistem harus menyediakan form pengembalian untuk setiap transaksi
   berstatus "disewa", menampilkan jumlah unit yang disewa pada transaksi
   tersebut.
@@ -145,7 +145,7 @@ satu sistem yang bisa dijalankan di satu komputer/laptop toko.
   waktu) setiap kali stok total berubah akibat unit hilang, agar dapat
   ditelusuri dari halaman riwayat.
 
-### FR-4 — Halaman Ketersediaan dan Riwayat Transaksi
+### FR-4: Halaman Ketersediaan dan Riwayat Transaksi
 - FR-4.1 Sistem harus menyediakan halaman untuk memilih alat dan rentang
   tanggal, lalu menampilkan rekap harian: stok total, unit terpakai, unit
   tersedia untuk setiap tanggal dalam rentang tersebut.
