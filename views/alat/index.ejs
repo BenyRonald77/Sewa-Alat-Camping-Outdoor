@@ -1,0 +1,57 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Inventaris Alat</h1>
+    <p>Daftar seluruh alat yang dimiliki toko beserta stok, harga sewa, dan deposit.</p>
+  </div>
+  <a class="button button--primary" href="/alat/baru">Tambah Alat Baru</a>
+</div>
+
+<% if (typeof errorHapus !== 'undefined' && errorHapus) { %>
+  <div class="alert alert--error" role="alert">
+    <%= errorHapus %>
+  </div>
+<% } %>
+
+<% if (!daftarAlat.length) { %>
+  <div class="state-empty">
+    <h3>Belum ada alat yang terdaftar</h3>
+    <p>Tambahkan alat pertama untuk mulai mengelola inventaris toko.</p>
+    <a class="button button--primary" href="/alat/baru">Tambah Alat Baru</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Nama Alat</th>
+          <th>Kategori</th>
+          <th class="numeric">Stok Total</th>
+          <th class="numeric">Harga Sewa/Hari</th>
+          <th class="numeric">Deposit</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% daftarAlat.forEach((alat) => { %>
+          <tr>
+            <td><%= alat.nama %></td>
+            <td><%= alat.kategori %></td>
+            <td class="numeric"><%= alat.stokTotal %></td>
+            <td class="numeric"><%= formatRupiah(alat.hargaSewaPerHari) %></td>
+            <td class="numeric"><%= formatRupiah(alat.deposit) %></td>
+            <td>
+              <div class="button-row" style="margin-top:0">
+                <a class="button button--secondary button--small" href="/alat/<%= alat.id %>/ubah">Ubah</a>
+                <form method="post" action="/alat/<%= alat.id %>/hapus" onsubmit="return confirm('Hapus alat ' + <%- JSON.stringify(alat.nama) %> + '? Tindakan ini tidak bisa dibatalkan.');">
+                  <button type="submit" class="button button--danger button--small">Hapus</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/footer') %>

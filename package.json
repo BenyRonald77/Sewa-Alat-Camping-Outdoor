@@ -1,0 +1,18 @@
+{
+  "name": "sewa-alat-camping-outdoor",
+  "version": "1.0.0",
+  "description": "Aplikasi internal pengelolaan sewa alat camping/outdoor: inventaris, transaksi penyewaan, pengembalian, dan ketersediaan.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

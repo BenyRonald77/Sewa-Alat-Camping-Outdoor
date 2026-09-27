@@ -1,0 +1,39 @@
+<%- include('partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Ringkasan operasional toko sewa alat camping/outdoor hari ini.</p>
+  </div>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-card__label">Alat Terdaftar</div>
+    <div class="stat-card__value"><%= jumlahAlat %></div>
+    <div class="stat-card__hint">jenis alat di inventaris</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card__label">Total Unit</div>
+    <div class="stat-card__value"><%= totalUnit %></div>
+    <div class="stat-card__hint">unit fisik dimiliki toko</div>
+  </div>
+</div>
+
+<div class="dashboard-grid">
+  <section class="card">
+    <h2>Mulai dari sini</h2>
+    <p>Kelola data alat, catat penyewaan baru, atau proses pengembalian barang.</p>
+    <div class="button-row">
+      <a class="button button--primary" href="/alat">Kelola Inventaris Alat</a>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Tentang aplikasi ini</h2>
+    <p class="muted">
+      Aplikasi internal untuk mencatat inventaris, transaksi penyewaan per
+      rentang tanggal, dan pengembalian alat camping/outdoor. Lihat
+      <code>PRD.md</code> di repo untuk cakupan lengkap.
+    </p>
+  </section>
+</div>
+<%- include('partials/footer') %>
