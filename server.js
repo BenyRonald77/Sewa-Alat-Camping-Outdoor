@@ -5,6 +5,8 @@ const routesIndex = require('./routes/index');
 const routesAlat = require('./routes/alat');
 const routesPenyewaan = require('./routes/penyewaan');
 const routesPengembalian = require('./routes/pengembalian');
+const routesKetersediaan = require('./routes/ketersediaan');
+const routesRiwayat = require('./routes/riwayat');
 const { formatRupiah } = require('./lib/format');
 const { formatTanggalIndonesia } = require('./lib/tanggal');
 const { LABEL_KONDISI } = require('./lib/deposit');
@@ -35,6 +37,8 @@ app.use('/', routesIndex);
 app.use('/alat', routesAlat);
 app.use('/penyewaan', routesPenyewaan);
 app.use('/pengembalian', routesPengembalian);
+app.use('/ketersediaan', routesKetersediaan);
+app.use('/riwayat', routesRiwayat);
 
 app.use((req, res) => {
   res.status(404).render('error', {

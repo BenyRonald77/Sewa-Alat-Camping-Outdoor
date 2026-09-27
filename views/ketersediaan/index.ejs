@@ -1,0 +1,86 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Ketersediaan Alat</h1>
+    <p>Pilih alat dan rentang tanggal untuk melihat berapa unit yang tersedia sebelum menjanjikan ke penyewa.</p>
+  </div>
+</div>
+
+<% if (!daftarAlat.length) { %>
+  <div class="state-empty">
+    <h3>Belum ada alat terdaftar</h3>
+    <p>Tambahkan alat terlebih dahulu di menu Inventaris Alat.</p>
+    <a class="button button--primary" href="/alat/baru">Tambah Alat</a>
+  </div>
+<% } else { %>
+  <% if (errors && errors.length) { %>
+    <div class="alert alert--error" role="alert">
+      <ul>
+        <% errors.forEach((e) => { %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="card">
+    <form method="get" action="/ketersediaan" id="formKetersediaan">
+      <div class="form-grid form-grid--2col">
+        <div class="field">
+          <label for="alatId">Alat</label>
+          <select id="alatId" name="alatId" required>
+            <option value="">Pilih alat</option>
+            <% daftarAlat.forEach((a) => { %>
+              <option value="<%= a.id %>" <%= form.alatId === a.id ? 'selected' : '' %>><%= a.nama %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div></div>
+        <div class="field">
+          <label for="mulai">Tanggal Mulai</label>
+          <input type="date" id="mulai" name="mulai" value="<%= form.mulai %>" required />
+        </div>
+        <div class="field">
+          <label for="selesai">Tanggal Selesai</label>
+          <input type="date" id="selesai" name="selesai" value="<%= form.selesai %>" required />
+        </div>
+      </div>
+      <div class="button-row">
+        <button type="submit" class="button button--primary">Cek Ketersediaan</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="indikatorMuat" class="state-loading" hidden>
+    <span class="spinner" aria-hidden="true"></span>
+    <span>Memuat hasil...</span>
+  </div>
+
+  <% if (!hasil && !(errors && errors.length)) { %>
+    <div class="state-empty" style="margin-top: var(--space-5)">
+      <h3>Belum ada rentang tanggal dipilih</h3>
+      <p>Pilih alat dan rentang tanggal di atas, lalu tekan "Cek Ketersediaan" untuk melihat rekap harian.</p>
+    </div>
+  <% } %>
+
+  <% if (hasil) { %>
+    <section class="card" style="margin-top: var(--space-5)">
+      <h2><%= alat.nama %></h2>
+      <p>Stok total: <strong><%= hasil.stokTotal %></strong> unit. Unit tersedia paling sedikit di sepanjang rentang ini: <strong><%= hasil.minTersedia %></strong> unit.</p>
+
+      <% if (hasil.minTersedia <= 0) { %>
+        <div class="alert alert--error">Tidak ada unit tersisa pada sebagian tanggal di rentang ini. Lihat rincian harian di bawah sebelum menjanjikan ke penyewa.</div>
+      <% } %>
+
+      <div class="availability-grid">
+        <% hasil.rincianHarian.forEach((h) => { %>
+          <% const cls = h.tersedia <= 0 ? 'availability-cell--full' : (h.tersedia <= Math.ceil(hasil.stokTotal * 0.3) ? 'availability-cell--tight' : ''); %>
+          <div class="availability-cell <%= cls %>">
+            <span class="availability-cell__date"><%= formatTanggalIndonesia(h.tanggal) %></span>
+            <span class="availability-cell__value"><%= h.tersedia %> / <%= hasil.stokTotal %></span>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+<% } %>
+<script src="/js/ketersediaan.js"></script>
+<%- include('../partials/footer') %>

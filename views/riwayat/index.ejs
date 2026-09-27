@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title: title }) %>
+<div class="page-head">
+  <div>
+    <h1>Riwayat Transaksi</h1>
+    <p>Seluruh transaksi penyewaan beserta status deposit, aktif maupun sudah selesai.</p>
+  </div>
+</div>
+
+<div class="button-row" style="margin-top: 0; margin-bottom: var(--space-4)">
+  <a class="button <%= statusFilter === '' ? 'button--primary' : 'button--secondary' %> button--small" href="/riwayat">Semua</a>
+  <a class="button <%= statusFilter === 'disewa' ? 'button--primary' : 'button--secondary' %> button--small" href="/riwayat?status=disewa">Sedang Disewa</a>
+  <a class="button <%= statusFilter === 'selesai' ? 'button--primary' : 'button--secondary' %> button--small" href="/riwayat?status=selesai">Selesai</a>
+</div>
+
+<% if (totalTransaksiKeseluruhan === 0) { %>
+  <div class="state-empty">
+    <h3>Belum ada transaksi tercatat</h3>
+    <p>Riwayat akan muncul di sini setelah transaksi penyewaan pertama dibuat.</p>
+    <a class="button button--primary" href="/penyewaan/baru">Buat Penyewaan Baru</a>
+  </div>
+<% } else if (!transaksiTampil.length) { %>
+  <div class="state-empty">
+    <h3>Tidak ada transaksi dengan status ini</h3>
+    <p>Coba pilih filter status lain di atas.</p>
+    <a class="button button--secondary" href="/riwayat">Tampilkan Semua Transaksi</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Penyewa</th>
+          <th>Alat</th>
+          <th class="numeric">Unit</th>
+          <th>Rentang Tanggal</th>
+          <th class="numeric">Total Sewa</th>
+          <th class="numeric">Deposit</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% transaksiTampil.forEach((t) => { %>
+          <tr>
+            <td><a href="/penyewaan/<%= t.id %>"><%= t.namaPenyewa %></a></td>
+            <td><%= t.alatNama %></td>
+            <td class="numeric"><%= t.jumlahUnit %></td>
+            <td><%= formatTanggalIndonesia(t.tanggalMulai) %> &ndash; <%= formatTanggalIndonesia(t.tanggalSelesai) %></td>
+            <td class="numeric"><%= formatRupiah(t.totalBiayaSewa) %></td>
+            <td class="numeric">
+              <% if (t.pengembalian) { %>
+                Kembali <%= formatRupiah(t.pengembalian.depositDikembalikan) %><br />
+                <span class="muted">Tertahan <%= formatRupiah(t.pengembalian.depositDitahan) %></span>
+              <% } else { %>
+                Dibayar <%= formatRupiah(t.depositDibayar) %>
+              <% } %>
+            </td>
+            <td>
+              <% if (t.status === 'selesai') { %>
+                <span class="tag tag--selesai">Selesai</span>
+              <% } else if (t.tanggalSelesai < (new Date().toISOString().slice(0,10))) { %>
+                <span class="tag tag--overdue">Terlambat</span>
+              <% } else { %>
+                <span class="tag tag--disewa">Disewa</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/footer') %>
