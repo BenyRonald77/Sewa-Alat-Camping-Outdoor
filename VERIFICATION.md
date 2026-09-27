@@ -123,6 +123,31 @@ menyewa 1 unit aktif pada 2026-12-03 s/d 2026-12-08):
   `overflow-x: auto` supaya tidak memicu overflow horizontal pada layar
   sempit.
 
+## 8. Verifikasi tambahan setelah polish CSS (kontras & bayangan header)
+
+Setelah PRD/DESIGN/fitur inti selesai, dua perbaikan kecil ditambahkan dan
+diverifikasi ulang:
+
+- Warna teks status kuning (`--color-warn`) digelapkan dari `#a3641a` menjadi
+  `#8a5316` karena kontras sebelumnya terhadap latar tag (`#f4e6cf`) hanya
+  3.88:1, di bawah ambang WCAG AA untuk teks normal (4.5:1). Dihitung ulang
+  dengan rumus kontras WCAG: hasil baru **5.13:1**, di atas ambang. Warna lain
+  (Bark di atas Sand/Card, Sand di atas Forest, teks putih gading di atas
+  Rust, warna tag baik/bad) sudah diperiksa dan seluruhnya di atas 4.5:1
+  sebelum maupun sesudah perubahan ini.
+- Token `--shadow-float` yang sebelumnya didefinisikan tapi tidak dipakai kini
+  diterapkan satu kali pada header sticky, dengan alasan tertulis di kode
+  (header ini sungguh mengambang di atas konten yang di-scroll). Dosis
+  bayangan tetap pada 1 elemen, sesuai batas R-12.
+
+Setelah kedua perubahan ini di-commit, server dijalankan ulang
+(`node server.js`) dan seluruh rute inti dicek lagi lewat `curl`: `/`,
+`/alat`, `/alat/baru`, `/penyewaan`, `/penyewaan/baru`, `/pengembalian`,
+`/ketersediaan`, `/riwayat` seluruhnya **200**, `/tidak-ada` **404**. Log
+server (`server.log`) bersih tanpa error. Data di `data/` tidak berubah
+(tidak ada transaksi uji yang tertinggal). Server dimatikan setelah
+pengujian.
+
 ## Kesimpulan
 
 Semua skenario wajib pada R-35 (buat penyewaan yang menghabiskan sebagian
